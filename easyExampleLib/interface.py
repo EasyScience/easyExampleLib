@@ -8,8 +8,7 @@ from abc import ABCMeta, abstractmethod
 from easyCore import borg
 from easyCore.Utils.json import MSONable
 from easyCore.Objects.Inferface import InterfaceFactoryTemplate
-
-from Example1.Interfaces import InterfaceTemplate
+from easyExampleLib.Interfaces import InterfaceTemplate
 
 
 class InterfaceFactory(InterfaceFactoryTemplate):

@@ -2,10 +2,11 @@ __author__ = 'github.com/wardsimon'
 __version__ = '0.0.1'
 
 import numpy as np
+
 from easyCore.Objects.Base import Descriptor, Parameter, BaseObj
 from easyCore.Utils.decorators import memoized
-from Example1.interface import InterfaceFactory
 from easyCore.Utils.classTools import addProp
+from easyExampleLib.interface import InterfaceFactory
 
 
 class Sin(BaseObj):
