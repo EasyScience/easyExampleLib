@@ -6,8 +6,8 @@ from typing import Callable
 import numpy as np
 import collections
 
-from Example1.Interfaces.interfaceTemplate import InterfaceTemplate
-from Example1.Calculators.calculator1 import Calculator1
+from easyExampleLib.Interfaces.interfaceTemplate import InterfaceTemplate
+from easyExampleLib.Calculators.calculator1 import Calculator1
 
 
 class Interface1(InterfaceTemplate):
