@@ -11,14 +11,14 @@ from easyExampleLib.Calculators.calculator1 import Calculator1
 
 
 class Interface1(InterfaceTemplate):
+    """
+    A simple example interface using Calculator1
+    """
     _link = {'amplitude': 'amplitude',
              'period':    'period',
              'x_shift':   'x_shift',
              'y_shift':   'y_shift'}
-
-    """
-    A simple example interface using Calculator1
-    """
+    name = 'calculator1'
 
     def __init__(self):
         # This interface will use calculator1

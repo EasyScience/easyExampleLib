@@ -16,6 +16,8 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
     """
     _interfaces = []
     _borg = borg
+    _link = {}
+    #name: str = None
 
     def __init_subclass__(cls, is_abstract: bool = False, **kwargs):
         """
