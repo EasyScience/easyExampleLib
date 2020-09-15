@@ -18,7 +18,7 @@ class Interface2(InterfaceTemplate):
              'period':    'p',
              'x_shift':   'dx',
              'y_shift':   'dy'}
-    name = 'calculator2'
+    name = 'cosine'
 
     def __init__(self):
         # This interface will use calculator1

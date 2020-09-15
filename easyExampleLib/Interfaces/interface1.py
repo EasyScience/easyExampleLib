@@ -18,7 +18,7 @@ class Interface1(InterfaceTemplate):
              'period':    'period',
              'x_shift':   'x_shift',
              'y_shift':   'y_shift'}
-    name = 'calculator1'
+    name = 'sine'
 
     def __init__(self):
         # This interface will use calculator1
