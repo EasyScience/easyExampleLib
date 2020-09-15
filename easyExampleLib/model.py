@@ -16,18 +16,10 @@ class Sin(BaseObj):
                  Parameter('y_shift', 0)]
 
     def __init__(self, interface_factory: InterfaceFactory = None):
-        self.interface = interface_factory
         super().__init__(self.__class__.__name__, *self._defaults)
-        self._set_interface()
-
-    def _set_interface(self):
+        self.interface = interface_factory
         if self.interface is not None:
-            # If an interface is given, generate bindings
-            for parameter in self.get_parameters():
-                name = parameter.name
-                setattr(parameter, '_callback',
-                        property(fget=self.interface().get_item_fn(self.interface(), self.interface()._link[name]),
-                                 fset=self.interface().set_item_fn(self.interface(), self.interface()._link[name])))
+            self.interface.generate_bindings(self)
 
     def __repr__(self):
         return f'{self.__class__.__name__}: amplitude={self.amplitude}, period={self.period}, x_shift={self.x_shift}, ' \

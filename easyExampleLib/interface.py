@@ -1,12 +1,8 @@
 __author__ = "github.com/wardsimon"
 __version__ = "0.0.1"
 
-import numpy as np
-from typing import Callable, List
-from abc import ABCMeta, abstractmethod
+from typing import Callable
 
-from easyCore import borg
-from easyCore.Utils.json import MSONable
 from easyCore.Objects.Inferface import InterfaceFactoryTemplate
 from easyExampleLib.Interfaces import InterfaceTemplate
 
@@ -15,7 +11,7 @@ class InterfaceFactory(InterfaceFactoryTemplate):
     def __init__(self):
         super(InterfaceFactory, self).__init__(InterfaceTemplate._interfaces)
 
-    def generate_bindings(self, name, *args, **kwargs) -> property:
+    def generate_binding(self, name, *args, **kwargs) -> property:
         """
         Automatically bind a `Parameter` to the corresponding interface.
         :param name: parameter name
@@ -23,13 +19,10 @@ class InterfaceFactory(InterfaceFactoryTemplate):
         :return: binding property
         :rtype: property
         """
-        if name in self.current_interface._link.keys():
-            return property(self.__get_item(self.current_interface._link[name]), self.__set_item(self, self.current_interface._link[name]))
-        else:
-            raise AttributeError
+        return property(self.__get_item(self, name, external=True), self.__set_item(self, name, external=True))
 
     @staticmethod
-    def __get_item(key: str) -> Callable:
+    def __get_item(obj, key: str, external: bool = True) -> Callable:
         """
         Access the value of a key by a callable object
         :param key: name of parameter to be retrieved
@@ -38,13 +31,12 @@ class InterfaceFactory(InterfaceFactoryTemplate):
         :rtype: Callable
         """
 
-        def inner(obj):
-            obj().get_value(key)
-
-        return lambda obj: inner(obj)
+        def inner():
+            return obj().get_value(key, external)
+        return inner
 
     @staticmethod
-    def __set_item(obj, key):
+    def __set_item(obj, key, external: bool = True) -> Callable:
         """
         Set the value of a key by a callable object
         :param obj: object to be created from
@@ -56,6 +48,6 @@ class InterfaceFactory(InterfaceFactoryTemplate):
         """
 
         def inner(value):
-            obj().set_value(key, value)
+            obj().set_value(key, value, external)
 
         return inner

@@ -4,25 +4,25 @@ __version__ = "0.0.1"
 from typing import Callable
 
 import numpy as np
-import collections
+import json
 
 from easyExampleLib.Interfaces.interfaceTemplate import InterfaceTemplate
-from easyExampleLib.Calculators.calculator1 import Calculator1
+from easyExampleLib.Calculators.calculator2 import Calculator2
 
 
-class Interface1(InterfaceTemplate):
+class Interface2(InterfaceTemplate):
     """
-    A simple example interface using Calculator1
+    A simple example interface using Calculator2
     """
-    _link = {'amplitude': 'amplitude',
-             'period':    'period',
-             'x_shift':   'x_shift',
-             'y_shift':   'y_shift'}
-    name = 'calculator1'
+    _link = {'amplitude': 'A',
+             'period':    'p',
+             'x_shift':   'dx',
+             'y_shift':   'dy'}
+    name = 'calculator2'
 
     def __init__(self):
         # This interface will use calculator1
-        self.calculator = Calculator1()
+        self.calculator = Calculator2()
 
     def get_value(self, value_label: str, external: bool) -> float:
         """
@@ -34,7 +34,8 @@ class Interface1(InterfaceTemplate):
         """
         if external and value_label in self._link.keys():
             value_label = self._link[value_label]
-        return getattr(self.calculator, value_label, None)
+        file_read = json.loads(self.calculator.export_data())
+        return file_read.get(value_label, None)
 
     def set_value(self, value_label: str, value: float, external: bool):
         """
@@ -50,7 +51,9 @@ class Interface1(InterfaceTemplate):
             print(f'Interface1: Value of {value_label} set to {value}')
         if external and value_label in self._link.keys():
             value_label = self._link[value_label]
-        setattr(self.calculator, value_label, value)
+        file_read = json.loads(self.calculator.export_data())
+        file_read[value_label] = value
+        self.calculator.import_data(json.dumps(file_read))
 
     def fit_func(self, x_array: np.ndarray) -> np.ndarray:
         """

@@ -17,7 +17,6 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
     _interfaces = []
     _borg = borg
     _link = {}
-    #name: str = None
 
     def __init_subclass__(cls, is_abstract: bool = False, **kwargs):
         """
@@ -35,19 +34,21 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
             cls._interfaces.append(cls)
 
     @abstractmethod
-    def get_value(self, value_label: str) -> float:
+    def get_value(self, value_label: str, external: bool) -> float:
         """
         Method to get a value from the calculator
 
         :param value_label: parameter name to get
         :type value_label: str
+        :param external: should we lookup a name conversion to internal labeling?
+        :type external: bool
         :return: associated value
         :rtype: float
         """
         pass
 
     @abstractmethod
-    def set_value(self, value_label: str, value: float):
+    def set_value(self, value_label: str, value: float, external: bool):
         """
         Method to set a value from the calculator
 
@@ -55,6 +56,8 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
         :type value_label: str
         :param value: new numeric value
         :type value: float
+        :param external: should we lookup a name conversion to internal labeling?
+        :type external: bool
         :return: None
         :rtype: noneType
         """
