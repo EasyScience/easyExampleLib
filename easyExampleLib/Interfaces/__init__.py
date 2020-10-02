@@ -6,10 +6,10 @@ try:
 except ImportError:
     # TODO make this a proper message (use logging?)
     print('interface1 is not installed')
-try:
-    from easyExampleLib.Interfaces.interface2 import Interface2  # noqa: F401
-except ImportError:
-    # TODO make this a proper message (use logging?)
-    print('interface2 is not installed')
+# try:
+#     from easyExampleLib.Interfaces.interface2 import Interface2  # noqa: F401
+# except ImportError:
+#     # TODO make this a proper message (use logging?)
+#     print('interface2 is not installed')
 
 from easyExampleLib.Interfaces.interfaceTemplate import InterfaceTemplate

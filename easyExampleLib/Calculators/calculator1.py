@@ -4,12 +4,25 @@ __version__ = "0.0.1"
 import numpy as np
 
 
+class Sin:
+    def __init__(self, amplitude: float = 3.5, period: float = np.pi, x_shift: float = 0, y_shift: float = 0):
+        self.amplitude = amplitude
+        self.period = period
+        self.x_shift = x_shift
+        self.y_shift = y_shift
+
+class Instrument:
+    def __init__(self, x_offset: float = 0, background: float =0):
+        self.x_offset = x_offset
+        self.background = background
+
+
 class Calculator1:
     """
     Generic calculator in the style of crysPy
     """
 
-    def __init__(self, amplitude: float = 3.5, period: float = np.pi, x_shift: float = 0, y_shift: float = 0):
+    def __init__(self):
         """
         Create a calculator object with m and c
         :param m: gradient
@@ -17,10 +30,18 @@ class Calculator1:
         :param c: intercept
         :type c: float
         """
-        self.amplitude = amplitude
-        self.period = period
-        self.x_shift = x_shift
-        self.y_shift = y_shift
+        self.sins = []
+        self.instrument = None
+
+    def add_sin(self, this_sin: Sin):
+        self.sins.append(this_sin)
+
+    def remove_sin(self, this_sin: Sin):
+        idx = self.sins.index(this_sin)
+        if idx is not None:
+            del self.sins[idx]
+        else:
+            raise AttributeError
 
     def calculate(self, x_array: np.ndarray) -> np.ndarray:
         """
@@ -30,7 +51,8 @@ class Calculator1:
         :return: points calculated at `x`
         :rtype: np.ndarray
         """
-
-        y_data = self.amplitude * np.sin(
-            (2 * np.pi / self.period) * (x_array + self.x_shift)) + self.y_shift
-        return y_data
+        y_data = np.zeros(x_array.shape)
+        for sin in self.sins:
+            y_data += sin.amplitude * np.sin(
+                (2 * np.pi / sin.period) * (x_array + sin.x_shift)) + sin.y_shift
+        return y_data + self.instrument.background

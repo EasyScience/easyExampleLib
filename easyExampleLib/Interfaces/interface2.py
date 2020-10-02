@@ -1,7 +1,7 @@
 __author__ = "github.com/wardsimon"
 __version__ = "0.0.1"
 
-from typing import Callable
+from typing import Callable, List
 
 import numpy as np
 import json
@@ -55,6 +55,33 @@ class Interface2(InterfaceTemplate):
         file_read[value_label] = value
         self.calculator.import_data(json.dumps(file_read))
 
+    def bulk_update(self, value_label_list: List[str], value_list: List[float], external: bool):
+        """
+        Perform an update of multiple values at once to save time on expensive updates
+
+        :param value_label_list: list of parameters to set
+        :type value_label_list: List[str]
+        :param value_list: list of new numeric values
+        :type value_list: List[float]
+        :param external: should we lookup a name conversion to internal labeling?
+        :type external: bool
+        :return: None
+        :rtype: noneType
+        """
+        # This is a more complex case than interface1
+        keys = self._link.keys()
+        file_read = json.loads(self.calculator.export_data())
+
+        for label, value in zip(value_label_list, value_list):
+            if label in keys:
+                if external:
+                    file_read[self._link[label]] = value
+                else:
+                    file_read[label] = value
+            else:
+                raise AttributeError
+        self.calculator.import_data(json.dumps(file_read))
+
     def fit_func(self, x_array: np.ndarray) -> np.ndarray:
         """
         Function to perform a fit
@@ -64,35 +91,3 @@ class Interface2(InterfaceTemplate):
         :rtype: np.ndarray
         """
         return self.calculator.calculate(x_array)
-
-    @staticmethod
-    def get_item_fn(obj, key: str) -> Callable:
-        """
-        Access the value of a key by a callable object
-        :param key: name of parameter to be retrieved
-        :type key: str
-        :return: function to get key
-        :rtype: Callable
-        """
-
-        def inner():
-            return obj.get_value(key)
-
-        return inner
-
-    @staticmethod
-    def set_item_fn(obj, key):
-        """
-        Set the value of a key by a callable object
-        :param obj: object to be created from
-        :type obj: InterfaceFactory
-        :param key: name of parameter to be set
-        :type key: str
-        :return: function to set key
-        :rtype: Callable
-        """
-
-        def inner(value):
-            obj.set_value(key, value)
-
-        return inner

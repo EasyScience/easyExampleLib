@@ -34,6 +34,22 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
             cls._interfaces.append(cls)
 
     @abstractmethod
+    def get_item_from_namespace(self, obj_id):
+        pass
+
+    @abstractmethod
+    def create_sample(self, external: bool, *args, **kwargs):
+        pass
+
+    @abstractmethod
+    def add_sample(self, sample_id):
+        pass
+
+    @abstractmethod
+    def remove_sample(self, sample_id):
+        pass
+
+    @abstractmethod
     def get_value(self, value_label: str, external: bool) -> float:
         """
         Method to get a value from the calculator
@@ -52,10 +68,26 @@ class InterfaceTemplate(MSONable, metaclass=ABCMeta):
         """
         Method to set a value from the calculator
 
-        :param value_label: parameter name to get
+        :param value_label: parameter name to set
         :type value_label: str
         :param value: new numeric value
         :type value: float
+        :param external: should we lookup a name conversion to internal labeling?
+        :type external: bool
+        :return: None
+        :rtype: noneType
+        """
+        pass
+
+    @abstractmethod
+    def bulk_update(self, value_label_list: List[str], value_list: List[float], external: bool):
+        """
+        Perform an update of multiple values at once to save time on expensive updates
+
+        :param value_label_list: list of parameters to set
+        :type value_label_list: List[str]
+        :param value_list: list of new numeric values
+        :type value_list: List[float]
         :param external: should we lookup a name conversion to internal labeling?
         :type external: bool
         :return: None
