@@ -24,6 +24,10 @@ class Interface2(InterfaceTemplate):
         # This interface will use calculator1
         self.calculator = Calculator2()
 
+    def create(self, model):
+        r_list = []
+        return r_list
+
     def get_value(self, value_label: str, external: bool) -> float:
         """
         Method to get a value from the calculator

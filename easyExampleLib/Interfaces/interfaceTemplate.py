@@ -6,11 +6,12 @@ from typing import Callable, List
 from abc import ABCMeta, abstractmethod
 
 from easyCore import borg
-from easyCore.Utils.json import MSONable
-from easyCore.Objects.Base import Parameter, BaseObj
+# from easyCore.Utils.json import 
+from easyCore.Objects.core import ComponentSerializer
+# from easyCore.Objects.Base import Parameter, BaseObj
 
 
-class InterfaceTemplate(MSONable, metaclass=ABCMeta):
+class InterfaceTemplate(ComponentSerializer, metaclass=ABCMeta):
     """
     This class is a template and defines all properties that an interface should have.
     """

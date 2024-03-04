@@ -3,9 +3,8 @@ __version__ = '0.0.1'
 
 import numpy as np
 
-from easyCore.Objects.Base import Descriptor, Parameter, BaseObj
-from easyCore.Utils.decorators import memoized
-from easyCore.Utils.classTools import addProp
+from easyCore.Objects.ObjectClasses import Descriptor, Parameter
+from easyCore.Objects.ObjectClasses import BaseObj
 from easyExampleLib.interface import InterfaceFactory
 
 
